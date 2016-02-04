@@ -1,3 +1,0 @@
-# primepoly
-
-fghmdghmdghm
