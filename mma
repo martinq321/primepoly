@@ -1,0 +1,119 @@
+poly[a_, b_, c_, d_, e_, f_, x_] := 
+ a x^5 + b x^4 + c x^3 + d x^2 + e x + f
+poly[a_, b_, c_, d_, e_, f_] := poly[a, b, c, d, e, f, x]
+ha[a_, b_, c_, d_, e_, f_] := Module[{aa, bb, cc, gg, nn, rat, bh},
+  gg[x_] := a x^5 + b x^4 + c x^3 + d x^2 + e x + f;
+  nn[p_] := Length[Solve[gg[x] == 0, x, Modulus -> p]];
+  rat[p_] := (1 - nn[p]/p)/(1 - 1/p);
+  bh[n_] := 
+   Product[rat[Prime[k]], {k, 1, 
+      n}]/(Length@CoefficientList[gg[x], x] - 1);
+  N@bh@10]
+ha[d_, e_, f_] := ha[0, 0, 0, d, e, f]
+hh[a_, b_, c_, d_, e_, f_] := Module[{aa, bb, cc, gg, nn, rat, bh},
+  gg[x_] := a x^5 + b x^4 + c x^3 + d x^2 + e x + f;
+  nn[p_] := Length[Solve[gg[x] == 0, x, Modulus -> p]];
+  rat[p_] := (1 - nn[p]/p)/(1 - 1/p);
+  bh[n_] := 
+   Product[rat[Prime[k]], {k, 1, 
+      n}]/(Length@CoefficientList[gg[x], x] - 1);
+  N@bh@100]
+hh[d_, e_, f_] := hh[0, 0, 0, d, e, f]
+hhh[a_, b_, c_, d_, e_, f_] := Module[{aa, bb, cc, gg, nn, rat, bh},
+  gg[x_] := a x^5 + b x^4 + c x^3 + d x^2 + e x + f;
+  nn[p_] := Length[Solve[gg[x] == 0, x, Modulus -> p]];
+  rat[p_] := (1 - nn[p]/p)/(1 - 1/p);
+  bh[n_] := 
+   Product[rat[Prime[k]], {k, 1, 
+      n}]/(Length@CoefficientList[gg[x], x] - 1);
+  N@bh@1000]
+hhh[d_, e_, f_] := hhh[0, 0, 0, d, e, f]
+ii[a_, b_, c_, d_, e_, f_] := Module[{aa, bb, cc, gg, nn, rat, bh},
+  gg[x_] := a x^5 + b x^4 + c x^3 + d x^2 + e x + f;
+  nn[p_] := Length[Solve[gg[x] == 0, x, Modulus -> p]];
+  rat[p_] := (1 - nn[p]/p)/(1 - 1/p);
+  bh[n_] := 
+   Product[rat[Prime[k]], {k, 1, 
+      n}]/(Length@CoefficientList[gg[x], x] - 1);
+  N@bh@10000]
+ii[d_, e_, f_] := ii[0, 0, 0, d, e, f]
+
+ha[{a_, b_, c_}] := ha[a, b, c]
+hh[{a_, b_, c_}] := hh[a, b, c]
+hhh[{a_, b_, c_}] := hhh[a, b, c]
+ii[{a_, b_, c_}] := ii[a, b, c]
+searchpt2[{a_, b_, c_}] := searchpt2[a, b, c]
+
+search[{a1_, a2_, a3_, k1_}, {b1_, b2_, b3_, k2_}, {c1_, c2_, c3_, 
+   k3_}, gt_, tol_, range_] := 
+ SortBy[Select[Module[{aa, bb, cc, a, b, c, f, nn, rat, bh},
+      aa = Range[a1, a2, a3]; bb = Range[b1, b2, b3]; 
+      cc = Range[c1, c2, c3];
+      a = (-1)^k1*RandomSample[aa, 1][[1]]; 
+      b = (-1)^k2*RandomSample[bb, 1][[1]]; 
+      c = (-1)^k3*RandomSample[cc, 1][[1]];
+      f[x_] := a x^2 + b x + c;
+      nn[p_] := Length[Solve[f[x] == 0, x, Modulus -> p]];
+      rat[p_] := (1 - nn[p]/p)/(1 - 1/p);
+      bh[n_] := 
+       Product[rat[Prime[k]], {k, 1, 
+          n}]/(Length@CoefficientList[f[x], x] - 1);
+      {a, b, c, N@bh@tol}] & /@ Range@range, #[[4]] > gt &], Last]
+
+hh[{a_, b_, c_}] := hh[a, b, c]
+hhh[{a_, b_, c_}] := hhh[a, b, c]
+ii[{a_, b_, c_}] := ii[a, b, c]
+searchpt2[{a_, b_, c_}] := searchpt2[a, b, c]
+
+search1[{a1_, a2_, k1_}, {b1_, b2_, k2_}, {c1_, c2_, k3_}, gt_, tol_, 
+  range_] := SortBy[Select[Module[{a, b, c, f, nn, rat, bh},
+      a = (-1)^k1*RandomInteger[{a1, a2}, 1][[1]]; 
+      b = (-1)^k2*RandomInteger[{b1, b2}, 1][[1]]; 
+      c = (-1)^k3*RandomInteger[{c1, c2}, 1][[1]];
+      f[x_] := a x^2 + b x + c;
+      nn[p_] := Length[Solve[f[x] == 0, x, Modulus -> p]];
+      rat[p_] := (1 - nn[p]/p)/(1 - 1/p);
+      bh[n_] := 
+       Product[rat[Prime[k]], {k, 1, 
+          n}]/(Length@CoefficientList[f[x], x] - 1);
+      {a, b, c, N@bh@tol}] & /@ Range@range, #[[4]] > gt &], Last]
+
+search2[z_, y_, x_, {a1_, a2_, k1_}, {b1_, b2_, k2_}, {c1_, c2_, k3_},
+   gt_, tol_, range_] := 
+ SortBy[Select[Module[{a, b, c, f, nn, rat, bh},
+      a = If[z == -1, (-1)^k1*RandomInteger[{a1, a2}, 1][[1]], z]; 
+      b = If[y == -1, (-1)^k2*RandomInteger[{b1, b2}, 1][[1]], y]; 
+      c = If[x == -1, (-1)^k3*RandomInteger[{c1, c2}, 1][[1]], x];
+      f[xx_] := a xx^2 + b xx + c;
+      nn[p_] := Length[Solve[f[xx] == 0, xx, Modulus -> p]];
+      rat[p_] := (1 - nn[p]/p)/(1 - 1/p);
+      bh[n_] := 
+       Product[rat[Prime[k]], {k, 1, 
+          n}]/(Length@CoefficientList[f[xx], xx] - 1);
+      {a, b, c, N@bh@tol}] & /@ Range@range, #[[4]] > gt &], Last]
+search2[z_, y_, x_, iterations_] := 
+ search2[z, y, x, {1, 100, 2}, {1, 10000, 1}, {1, 100000, 2}, 3, 10, 
+  iterations]
+search2[z_, y_, x_] := 
+ search2[z, y, x, {1, 100, 2}, {1, 10000, 1}, {1, 100000, 2}, 3, 10, 
+  10^5]
+
+(*search[{1,100,1,2},{1,1000,1,1},{1,10000,1,2},3,10,10^3]*)
+
+searchpt2[c5_, c4_, c3_, c2_, c1_, c0_, range_] := Module[{a, b, c},
+  a = Split[
+    PrimeQ@# & /@ (poly[c5, c4, c3, c2, c1, c0, #] & /@ Range@range)];
+   b = Max[Length@# & /@ Select[a, MemberQ[#, True] == True &]]; 
+  c = Length@
+    Flatten@Take[a, 
+      Flatten[Position[a, ConstantArray[True, b]]][[1]] - 1]; {b, 
+   FindSequenceFunction[
+    poly[c5, c4, c3, c2, c1, c0, #] & /@ Range[c + 1, c + b]]}]
+searchpt2[c2_, c1_, c0_, range_] := 
+ searchpt2[0, 0, 0, c2, c1, c0, range]
+searchpt2[c2_, c1_, c0_] := searchpt2[0, 0, 0, c2, c1, c0, 10^6]
+
+vv[li_] := 
+ Length@# & /@ 
+   Select[Split@PrimeQ[li /@ Range[-100, 100]], 
+    MemberQ[#, True] == True &] // Max
